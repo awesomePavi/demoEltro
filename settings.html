@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>EltroTech Gallery Watch</title>
+
+    <!-- FavICon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="./assets/favicon/site.webmanifest">
+    <link rel="mask-icon" href="./assets/favicon/safari-pinned-tab.svg" color="#50c878">
+    <link rel="shortcut icon" href="./assets/favicon/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="EltroTech Museum">
+    <meta name="application-name" content="EltroTech Museum">
+    <meta name="msapplication-TileColor" content="#00a300">
+    <meta name="msapplication-config" content="./assets/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#50c878">
+
+    <!-- Bootstrap core CSS-->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Page level plugin CSS-->
+    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin.css" rel="stylesheet">
+
+    <!-- Firebase API-->
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+
+    <!-- Our Scripts -->
+    <script src="js/base.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/settings.js"></script>
+
+  </head>
+
+  <body id="page-top" onload="executePageLoaded()">
+    <div id="wrapper">
+
+      <!-- Sidebar -->
+      <ul class="sidebar navbar-nav toggled">
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Overview</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="tables.html">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Data</span>
+          </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="settings.html">
+            <i class="fas fa-cogs"></i>
+            <span>Settings</span></a>
+        </li>
+      </ul>
+
+      <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+          <!-- Area Chart Example-->
+          <div class="row">
+            <div class="col-xl-6 col-ym-4 mb-3">
+              <div class="card mb-3">
+                <div class="card-header">
+                  <i class="fas">°C</i>
+                  Temeperature Thresholds
+                </div>
+                <div class="card-body">
+                  <form onsubmit="return false;">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Target Temepratrure</label>
+                      <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">Current:&nbsp;<a id="tempCurTar">N/A</a>°C</div>
+                        </div>
+                        <input id="tempNewTar" type="number" class="form-control" id="inlineFormInputGroup" placeholder="Target Temperature °C" min="17" max="27" required="true">
+                      </div>
+                      <small id="emailHelp" class="form-text text-muted">The temperature the gallery should be at</small>
+                    </div>
+                    <div class="form-group">
+                     <label for="exampleInputEmail1">Warning Threshold</label>
+                      <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">Current: ±&nbsp;<a id="tempCurWarn">N/A</a>°C</div>
+                        </div>
+                        <input id="tempNewWarn" type="number" class="form-control" id="inlineFormInputGroup" placeholder="Warning Variance °C" min="0" max="10" required="true">
+                      </div>
+                      <small id="emailHelp" class="form-text text-muted">How much can the temperature differ by before a warning is needed</small>
+                    </div>
+                    <div class="form-group">
+                     <label for="exampleInputEmail1">Danger Threshold</label>
+                      <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">Current: ±&nbsp;<a id="tempCurDanger">N/A</a>°C</div>
+                        </div>
+                        <input id="tempNewDanger" type="number" class="form-control" id="inlineFormInputGroup" placeholder="Dangerous Variance °C" min="0" max="20" required="true">
+                      </div>
+                      <small id="emailHelp" class="form-text text-muted">At what point should we consider the temperature dangerous</small>
+                    </div>
+                    <button id="tempSubmit" type="submit" class="btn btn-secondary disabled" onclick="updateTemp()">UPDATE</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-6 col-ym-4 mb-3">
+              <div class="card mb-3">
+                <div class="card-header">
+                  <i class="fas fa-tint"></i>
+                  Humidity Thresholds
+                </div>
+                <div class="card-body">
+                  <form onsubmit="return false;">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Target Humidity</label>
+                      <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">Current:&nbsp;<a id="humidCurTar">N/A</a>% &nbsp;</div>
+                        </div>
+                        <input id="humidNewTar" type="number" class="form-control" id="inlineFormInputGroup" placeholder="Target Humidity %"  min="0" max="200" required="true">
+                      </div>
+                      <small id="emailHelp" class="form-text text-muted">The humidity the gallery should be at</small>
+                    </div>
+                    <div class="form-group">
+                     <label for="exampleInputEmail1">Warning Threshold</label>
+                      <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">Current: ±&nbsp;<a id="humidCurWarn">N/A</a>%</div>
+                        </div>
+                        <input id="humidNewWarn" type="number" class="form-control" id="inlineFormInputGroup" placeholder="Warning Variance %" min="0" max="200" required="true">
+                      </div>
+                      <small id="emailHelp" class="form-text text-muted">How much can the humidity differ by before a warning is needed</small>
+                    </div>
+                    <div class="form-group">
+                     <label for="exampleInputEmail1">Danger Threshold</label>
+                      <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">Current: ±&nbsp;<a id="humidCurDanger">N/A</a>%</div>
+                        </div>
+                        <input id="humidNewDanger" type="number" class="form-control" id="inlineFormInputGroup" placeholder="Dangerous Variance % min="0" max="200" required="true">
+                      </div>
+                      <small id="emailHelp" class="form-text text-muted">At what point should we consider the humidity dangerous</small>
+                    </div>
+                    <button id="humidSubmit" type="submit" class="btn btn-secondary disabled" onclick="updateHumid()">UPDATE</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- /.content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Page level plugin JavaScript-->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+  </body>
+
+</html>

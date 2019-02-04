@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>EltroTech Gallery Watch</title>
+
+    <!-- FavICon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="./assets/favicon/site.webmanifest">
+    <link rel="mask-icon" href="./assets/favicon/safari-pinned-tab.svg" color="#50c878">
+    <link rel="shortcut icon" href="./assets/favicon/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="EltroTech Museum">
+    <meta name="application-name" content="EltroTech Museum">
+    <meta name="msapplication-TileColor" content="#00a300">
+    <meta name="msapplication-config" content="./assets/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#50c878">
+
+    <!-- Bootstrap core CSS-->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Page level plugin CSS-->
+    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+
+    <!-- Firebase API-->
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+
+    <!-- Our Scripts -->
+    <script src="js/base.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/index.js"></script>
+
+  </head>
+
+  <body id="page-top" onload="executePageLoaded()">
+    <div id="wrapper">
+
+      <!-- Sidebar -->
+      <ul class="sidebar navbar-nav toggled">
+        <li class="nav-item active">
+          <a class="nav-link" href="index.html">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Overview</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="tables.html">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Data</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="settings.html">
+            <i class="fas fa-cogs"></i>
+            <span>Settings</span></a>
+        </li>
+      </ul>
+
+      <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+          <!-- Icon Cards-->
+          <div class="row updateCards">
+            <div class="col-xl-4 col-ym-4 mb-3">
+              <div class="card text-white bg-secondary o-hidden h-100" id="timeUpdateCard">
+                <div class="card-body">
+                  <div class="card-body-icon">
+                    <i class="far fa-clock"></i>
+                  </div>
+                  <div class="mr-5">Last Updated:<br><a id="timeUpdate"></a></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-4 col-sm-6 mb-3">
+              <div class="card text-white bg-secondary o-hidden h-100" id="tempUpdateCard">
+                <div class="card-body">
+                  <div class="card-body-icon">
+                    <i class="fas fa-thermometer-empty"></i>
+                  </div>
+                  <div class="mr-5">Temperature <br><a id="tempUpdate"></a></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-4 col-sm-6 mb-3">
+              <div class="card text-white bg-secondary o-hidden h-100" id="humidUpdateCard">
+                <div class="card-body">
+                  <div class="card-body-icon">
+                    <i class="fas fa-tint"></i>
+                  </div>
+                  <div class="mr-5">Humidity <br><a id="humidUpdate"></a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Area Chart Example-->
+          <div class="row">
+            <div class="col-xl-6 col-ym-4 mb-3">
+              <div class="card mb-3">
+                <div class="card-header">
+                  <i class="fas fa-chart-area"></i>
+                  Temperature Chart
+                </div>
+                <div class="card-body">
+                  <div class="legend">
+                    <ul>
+                      <li><span style="background-color:#28a745; border: 1px solid rgba(0,0,0,.125)">Target</span></li>
+                      <li><span  style="background-color:#ffc107; border: 1px solid rgba(0,0,0,.125)">Warning</span></li>
+                      <li><span  style="background-color:#dc3545; border: 1px solid rgba(0,0,0,.125)">Danger</span></li>
+                    </ul>
+                  </div>
+                  <canvas id="myTempChart" width="100%" height="60"></canvas>
+                </div>
+                <div class="card-footer small text-muted">Updated:&nbsp;<a id="myTempDate"></a></div>
+              </div>
+            </div>
+            <div class="col-xl-6 col-ym-4 mb-3">
+              <div class="card mb-3">
+                <div class="card-header">
+                  <i class="fas fa-chart-area"></i>
+                  Humidity Chart
+                </div>
+                <div class="card-body">
+                  <div class="legend">
+                    <ul>
+                      <li><span style="background-color:#28a745; border: 1px solid rgba(0,0,0,.125)">Target</span></li>
+                      <li><span  style="background-color:#ffc107; border: 1px solid rgba(0,0,0,.125)">Warning</span></li>
+                      <li><span  style="background-color:#dc3545; border: 1px solid rgba(0,0,0,.125)">Danger</span></li>
+                    </ul>
+                  </div>
+                  <canvas id="myHumidChart" width="100%" height="60"></canvas>
+                </div>
+                <div class="card-footer small text-muted">Updated:&nbsp;<a id="myHumidDate"></aa></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- /.content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Page level plugin JavaScript-->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+  </body>
+
+</html>
